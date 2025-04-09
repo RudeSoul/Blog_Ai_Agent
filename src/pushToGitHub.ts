@@ -24,10 +24,11 @@ export async function pushPost(slug: string, title: string) {
 
   const git = simpleGit();
 
-  if (!fs.existsSync(CLONE_DIR)) {
-    console.log("📥 Cloning repo...");
-    await git.clone(repoUrl, CLONE_DIR);
+  console.log("📥 Cloning blog repo...");
+  if (fs.existsSync(CLONE_DIR)) {
+    fs.rmSync(CLONE_DIR, { recursive: true, force: true });
   }
+  await git.clone(repoUrl, CLONE_DIR);
 
   const repoGit = simpleGit(CLONE_DIR);
 
